@@ -7,4 +7,10 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DocumentFormat.OpenXml" Version="3.3.0" />
+      <PackageReference Include="DS.Documents.Word" Version="8.2.0" />
+      <PackageReference Include="NumToWord" Version="1.0.3" />
+    </ItemGroup>
+
 </Project>

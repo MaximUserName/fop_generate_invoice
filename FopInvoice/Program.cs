@@ -1,6 +1,21 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-static async Task GenerateInvoice()
+using FopInvoice;
+
+static async Task GenerateInvoiceFromDocx()
+{
+    Console.WriteLine("Generating invoice");
+    await Task.CompletedTask;
+
+    var pathToDocx = Path.Combine("../../../", "invoice_template.docx");
+
+    DocxTextReplacer.SearchAndReplaceVars(pathToDocx, "");
+
+    // NumToTextUtil.TestOnConsole();
+    // DocxTextReplacer.SearchAndReplace(pathToDocx, "2025", "2026");
+}
+
+static async Task GenerateInvoice2()
 {
     Console.WriteLine("Generating invoice");
     await Task.CompletedTask;
@@ -12,4 +27,4 @@ static async Task GenerateInvoice()
     Console.WriteLine(file.Length);
 }
 
-await GenerateInvoice();
+await GenerateInvoiceFromDocx();
