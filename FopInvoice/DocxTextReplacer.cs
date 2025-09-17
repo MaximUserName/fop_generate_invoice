@@ -53,10 +53,10 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 119;
-        var price = 1590;
+        var invoiceNumber = 120;
+        var price = 500;
 
-        var dateOfMoneyArrived = "25.08.2025";
+        var dateOfMoneyArrived = "15.09.2025";
 
         var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
 
