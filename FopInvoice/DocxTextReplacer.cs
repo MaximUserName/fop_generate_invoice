@@ -53,10 +53,10 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 120;
-        var price = 500;
+        var invoiceNumber = 122;
+        var price = 1610;
 
-        var dateOfMoneyArrived = "15.09.2025";
+        var dateOfMoneyArrived = "07.10.2025";
 
         var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
 
@@ -112,13 +112,22 @@ public static class DocxTextReplacer
         // throws error. Input string '-35.0' was not in correct format
         // ConvertDocxToPdf(newInvoicePath, Path.ChangeExtension(newInvoicePath, ".pdf"));
 
-        Console.WriteLine("Номер контракту:");
-        Console.WriteLine($"Invoice (offer) / Інвойс (оферта)  № 1/{invoiceNumber}");
-        Console.WriteLine("------");
+        var textInfoFilePath = Path.ChangeExtension(newInvoicePath, ".txt");
+        using var fileWriter = File.OpenWrite(textInfoFilePath);
+        using var writer = new StreamWriter(fileWriter);
+
+        writer.WriteLine("Тип операції:    Експорт");
+        writer.WriteLine("Підстава:        Документи до діючого контракту ");
+        writer.WriteLine("Назва контрагента:");
+        writer.WriteLine("Upwork Escrow Inc. Odesk Outgoing Wire Clearing.");
+
+        writer.WriteLine("Номер контракту:");
+        writer.WriteLine($"Invoice (offer) / Інвойс (оферта)  № 1/{invoiceNumber}");
+        writer.WriteLine("------");
 
         var nadayemoText =
             $"Надаємо Контракт на загальну суму {price}$ як оплату за розробку програмного забезпечення. Згідно Invoice (offer) / Інвойс (оферта) №1/{invoiceNumber} від {dateOfInvoiceAsString}р.";
-        Console.WriteLine(nadayemoText);
+        writer.WriteLine(nadayemoText);
     }
 
     private static void ConvertDocxToPdf(string sourceFilePath, string destFilePath)
