@@ -7,7 +7,8 @@ static async Task GenerateInvoiceFromDocx()
     Console.WriteLine("Generating invoice");
     await Task.CompletedTask;
 
-    var pathToDocx = Path.Combine("../../../", "invoice_template.docx");
+    // var pathToDocx = Path.Combine("../../../", "invoice_template.docx");
+    var pathToDocx = Path.Combine("../../../", "invoice_template_new_cust.docx");
 
     DocxTextReplacer.SearchAndReplaceVars(pathToDocx, "");
 
