@@ -8,7 +8,9 @@ static async Task GenerateInvoiceFromDocx()
     await Task.CompletedTask;
 
     // var pathToDocx = Path.Combine("../../../", "invoice_template.docx");
-    var pathToDocx = Path.Combine("../../../", "invoice_template_new_cust.docx");
+    // var pathToDocx = Path.Combine("../../../", "invoice_template_new_cust.docx");
+    // var pathToDocx = Path.Combine("../../../", "invoice_template_new2_cust_clara.docx");
+    var pathToDocx = Path.Combine("../../../", "invoice_template_new3_cust_clara.docx");
 
     DocxTextReplacer.SearchAndReplaceVars(pathToDocx, "");
 

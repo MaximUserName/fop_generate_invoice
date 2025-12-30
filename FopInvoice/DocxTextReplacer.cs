@@ -53,10 +53,11 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 122;
-        var price = 1610;
+        var invoiceNumber = 128;
+        var price = 800;
 
-        var dateOfMoneyArrived = "07.10.2025";
+        var dateOfMoneyArrived = "26.12.2025";
+        var customerWithAddress = "Payment Escrow Inc. 2625 Augustine Drive, Suite 601 Santa Clara CA 95054 US";
 
         var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
 
@@ -88,6 +89,7 @@ public static class DocxTextReplacer
             { "invoice_price_english_text", $"{invoicePriceTextEnglish} United States dollars." },
             { "invoice_price_ukr", $"{invoicePriceTextUkr}  доларів США." },
             { "invoice_date_pay_not_later", datePayNoLaterAsString },
+            { "customer_with_address", customerWithAddress }
         }.ToDictionary(k => "{" + k.Key + "}", v => v.Value);
 
         using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(newInvoicePath, true))
@@ -128,6 +130,11 @@ public static class DocxTextReplacer
         var nadayemoText =
             $"Надаємо Контракт на загальну суму {price}$ як оплату за розробку програмного забезпечення. Згідно Invoice (offer) / Інвойс (оферта) №1/{invoiceNumber} від {dateOfInvoiceAsString}р.";
         writer.WriteLine(nadayemoText);
+
+        writer.WriteLine("--- ANOTHER WAY. відповідь на запит ---");
+        var uvidpovidnadaemoText =
+            $"У відповідь на \"ІТ- Експорт - документи до надходження {price} USD {dateOfMoneyArrived}\" повідомляємо, що кошти надійшли як оплата згідно Інвойсу №1/{invoiceNumber} від {dateOfInvoiceAsString}р. Документи надаємо разом з відповіддю.";
+        writer.WriteLine(uvidpovidnadaemoText);
     }
 
     private static void ConvertDocxToPdf(string sourceFilePath, string destFilePath)
