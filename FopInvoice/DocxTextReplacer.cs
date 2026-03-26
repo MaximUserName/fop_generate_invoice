@@ -53,12 +53,16 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 128;
-        var price = 800;
+        var invoiceNumber = 135;
+        var price = 1650;
 
-        var dateOfMoneyArrived = "26.12.2025";
+        var dateOfMoneyArrived = "23.03.2026";
         var customerWithAddress = "Payment Escrow Inc. 2625 Augustine Drive, Suite 601 Santa Clara CA 95054 US";
 
+        // Check incomming letter from bank (payment escrow inc ... address) and uncomment if needed
+        /*
+        customerWithAddress = "PAYMENT ESCROW INC.ODESK OUTGOING WIRE CLEARING адреса 75 BRANNAN STREET, STE. 430 AN FRANCISCO, CA US 94107:US";
+        */
         var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
 
         // Invoice date should be earlier (2 days) than date of money arrived
