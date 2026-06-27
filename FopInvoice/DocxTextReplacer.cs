@@ -53,10 +53,10 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 139;
-        var price = 1840;
+        var invoiceNumber = 142;
+        var price = 2900;
 
-        var dateOfMoneyArrived = "11.05.2026";
+        var dateOfMoneyArrived = "12.06.2026";
         var customerWithAddress = "Payment Escrow Inc. 2625 Augustine Drive, Suite 601 Santa Clara CA 95054 US";
 
         // Check incomming letter from bank (payment escrow inc ... address) and uncomment if needed

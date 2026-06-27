@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Invoice Template</title>
+    <style>
+        /* General Reset & Layout */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            color: #333333;
+            line-height: 1.4;
+            margin: 0;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Invoice Header Split */
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: top;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #edf2f7;
+            padding-bottom: 20px;
+        }
+
+        .company-identity h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+            color: #1a0dab;
+        }
+
+        .company-identity p, .invoice-meta p {
+            margin: 0 0 4px 0;
+            font-size: 14px;
+            color: #4a5568;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .invoice-title h2 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #2d3748;
+        }
+
+        /* Billing Details Split */
+        .billing-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+        }
+
+        .bill-section {
+            width: 48%;
+        }
+
+        .bill-section h3 {
+            margin: 0 0 8px 0;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #718096;
+        }
+
+        .bill-section p {
+            margin: 0 0 4px 0;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        /* Semantic Invoice Table Styling */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .invoice-table th {
+            background-color: #f7fafc;
+            color: #4a5568;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 12px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .invoice-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 15px;
+        }
+
+        /* Column alignments */
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        /* Summary Calculations Block */
+        .invoice-summary {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .summary-table {
+            width: 40%;
+            border-collapse: collapse;
+        }
+
+        .summary-table td {
+            padding: 8px 12px;
+            font-size: 15px;
+        }
+
+        .summary-table tr.total-row td {
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a0dab;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 12px;
+        }
+
+        /* Bottom Footer / Notes */
+        .invoice-footer {
+            border-top: 1px solid #edf2f7;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #a0aec0;
+        }
+
+        /* Printer Friendly Styles Override */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+            }
+            .invoice-container {
+                border: none;
+                box-shadow: none;
+                padding: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="invoice-container">
+    <!-- Header Section -->
+    <div class="invoice-header">
+
+        <h1>PixelCraft Studios</h1>
+        <p>123 Creative Tech Way, Suite 500</p>
+        <p>San Francisco, CA 94103</p>
+        <p>billing@pixelcraft.io</p>
+    </div>
+    <div class="invoice-title">
+        <h2>Invoice</h2>
+        <div class="invoice-meta">
+            <p><strong>Invoice #:</strong> INV-2026-089</p>
+            <p><strong>Date Issued:</strong> June 27, 2026</p>
+            <p><strong>Due Date:</strong> July 27, 2026</p>
+        </div>
+    </div>
+</div>
+
+<!-- Billing Demographics -->
+<div class="billing-details">
+    <div class="bill-section">
+        <h3>Issued To</h3>
+        <p>Acme Corporation</p>
+        <p>Attn: Accounts Payable</p>
+        <p>456 Industrial Blvd</p>
+        <p>Austin, TX 78701</p>
+    </div>
+    <div class="bill-section" style="text-align: right;">
+        <h3>Payment Terms</h3>
+        <p>Net 30 Days</p>
+        <p>Payment Method: Bank Transfer</p>
+    </div>
+</div>
+
+<!-- Primary Itemized Line Table -->
+<table class="invoice-table">
+    <thead>
+    <tr>
+        <th>Description</th>
+        <th class="text-center" style="width: 10%;">Qty</th>
+        <th class="text-right" style="width: 15%;">Unit Price</th>
+        <th class="text-right" style="width: 20%;">Amount</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>
+            <strong>Website Redesign & Development</strong><br>
+            <span style="font-size: 13px; color: #718096;">Complete overhaul of corporate landing page and UI optimization.</span>
+        </td>
+        <td class="text-center">1</td>
+        <td class="text-right">$4,500.00</td>
+        <td class="text-right">$4,500.00</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Cloud Infrastructure Migration</strong><br>
+            <span style="font-size: 13px; color: #718096;">Database clustering setup and server architecture migration.</span>
+        </td>
+        <td class="text-center">2</td>
+        <td class="text-right">$1,200.00</td>
+        <td class="text-right">$2,400.00</td>
+    </tr>
+    <tr>
+        <td>
+            <strong>Monthly Maintenance & Support</strong><br>
+            <span style="font-size: 13px; color: #718096;">Priority technical support SLA allowance (June 2026).</span>
+        </td>
+        <td class="text-center">5</td>
+        <td class="text-right">$150.00</td>
+        <td class="text-right">$750.00</td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- Financial Aggregates -->
+<div class="invoice-summary">
+    <table class="summary-table">
+        <tr>
+            <td>Subtotal</td>
+            <td class="text-right">$7,650.00</td>
+        </tr>
+        <tr>
+            <td>Tax (8.25%)</td>
+            <td class="text-right">$631.13</td>
+        </tr>
+        <tr class="total-row">
+            <td>Total Due</td>
+            <td class="text-right">$8,281.13</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Bottom Terms / Notes Footer -->
+<div class="invoice-footer">
+    <p>Thank you for your business!</p>
+    <p style="font-size: 11px; margin-top: 5px;">If you have any questions concerning this invoice, contact us at support@pixelcraft.io</p>
+</div>
+</div>
+
+</body>
+</html>
