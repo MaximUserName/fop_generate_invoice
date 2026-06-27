@@ -8,15 +8,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="Resources\invoice-to-pdf.html" />
-      <Content Include="Resources\invoice-to-pdf.html">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
+      <None Remove="Resources\invoice-to-pdf-sample.html" />
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Handlebars.Net" Version="2.1.6" />
       <PackageReference Include="PuppeteerSharp" Version="25.1.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Resources\invoice-to-pdf-sample.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

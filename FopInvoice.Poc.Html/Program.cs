@@ -18,7 +18,7 @@ class Program
     static async Task TryGeneratePdf()
     {
         Console.WriteLine("Generate PDF from HTML using headless browser");
-        var invoicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/invoice-to-pdf.html");
+        var invoicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/invoice-to-pdf-sample.html");
 
         Console.WriteLine(invoicePath);
         // var html2 = File.ReadAllText(invoicePath);
@@ -46,7 +46,7 @@ class Program
         await page.SetContentAsync(html);
         var pdf = await page.PdfDataAsync(new PdfOptions(){ Format = PaperFormat.A4, PrintBackground = true});
 
-        var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output", "invoice-to-pdf.pdf");
+        var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output", "invoice-to-pdf-sample.pdf");
         var directory = Path.GetDirectoryName(outputPath)!;
         if (!Directory.Exists(directory))
         {

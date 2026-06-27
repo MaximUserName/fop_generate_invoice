@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>FOP Invoice Template</title>
+</head>
+
+<body>
+    <div class="header">
+        <strong>Invoice (offer) / Інвойс (оферта)</strong> № 1/{{invoice_number}}
+    </div>
+    <table>
+        <tr>
+            <td>Date and Place: {{invoice_date}}, Vinnytsia</td>
+            <td>Дата та місце: {{invoice_date}}, м. Вінниця</td>
+        </tr>
+        <tr>
+            <td>"Supplier Individual Entrepreneur Ilyukhin Maxim Oleksandrovych
+                address: {{ address_en }}.
+                Individual Tax Number - {{ipn_fop_tax_number}}"</td>
+            <td>"Виконавець: ФОП Ілюхін Максим Олександрович, що проживає за адресою {{address_ukr}}
+                ІПН - {{ipn_fop_tax_number}}"</td>
+        </tr>
+        <tr>
+            <td>"Customer:
+                {{customer_with_address}}
+                "</td>
+            <td>"Замовник
+                {{customer_with_address}}"</td>
+        </tr>
+        <tr>
+            <td>Subject matter: Software Development </td>
+            <td>Предмет: Розробка програмного забезпечення</td>
+        </tr>
+        <tr>
+            <td>Currency: USD</td>
+            <td>Валюта: Долар США</td>
+        </tr>
+        <tr>
+            <td>Price (amount) of the goods/services : {{invoice_price}}</td>
+            <td>Ціна (загальна вартість) товарів/послуг: {{invoice_price}}</td>
+        </tr>
+        <tr>
+            <td>"Terms of payments and acceptation:
+                Postpayment of 100% upon the services delivery. The services being rendered at the location of the
+                Customer."</td>
+            <td>Умови оплати та передачі: 100% післяплата за фактом виконання послуг. Послуги надаються за місцем
+                реєстрації Замовника.</td>
+        </tr>
+        <tr>
+            <td>"Customer Bank information:
+                Beneficiary: Upwork Escrow Inc.
+                Account # : 6550275660
+                Beneficiary’s bank:
+                The Bank of America N.A.
+                New York, USA
+                SWIFT code: BOFAUS3N
+                "</td>
+            <td>"Supplier Bank information:
+                Beneficiary: PE Ilyukhin Maxim Oleksandrovych
+                Account # : UA503510050000026000878803267
+                Beneficiary’s bank: UKRSIBBANK
+                ANDRIIVSKA STREET 2/12
+                KYIV, UKRAINE
+                SWIFT code: BNPAU2K
+                Correspondent bank #1:
+                The Bank of America N.A.
+                New York, USA
+                Account No.: 6550275660
+                SWIFT code: BOFAUS3N"</td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td>№</td>
+            <td>"Description/
+                Опис"</td>
+            <td>"Quantity/
+                Кількість"</td>
+            <td>"Price,USD
+                Ціна, Долар США"</td>
+            <td>"Amount, USD /
+                Загальна вартість, Долар США"</td>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Software Development /Розробка програмного забезпечення</td>
+            <td>1</td>
+            <td>{{invoice_price}}</td>
+            <td>{{invoice_price}}</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Total/Усього:</td>
+            <td>{{invoice_price}}</td>
+        </tr>
+        <tr>
+            <td colspan="4">"Total to pay/ {{invoice_price_english_text}}
+                Усього до сплати: {{invoice_price_ukr}}"</td>
+            <td>{{invoice_price}}</td>
+        </tr>
+    </table>
+    <br>
+    <p>
+        All charges of correspondent banks are at the Supplier’s expenses. / Усі комісії банків-кореспондентів сплачує
+        виконавець.
+    </p>
+    <p>
+        This Invoice is an offer to enter into the agreement. Payment according hereto shall be deemed as an acceptation
+        of the offer to enter into the agreement on the terms and conditions set out herein. Payment according hereto
+        may be made not later than {{invoice_date_pay_not_later}}./ Цей Інвойс є пропозицією укласти договір. Оплата за
+        цим Інвойсом є прийняттям пропозиції укласти договір на умовах, викладених в цьому Інвойсі. Оплата за цим
+        інвойсом може бути здійснена не пізніше {{invoice_date_pay_not_later}}.
+    </p>
+    <p>
+        Please note, that payment according hereto at the same time is the evidence of the work performance and the
+        service delivery in full scope, acceptation thereof and the confirmation of final mutual installments between
+        Parties. / Оплата згідно цього Інвойсу одночасно є свідченням виконання робіт та надання послуг в повному
+        обсязі, їх прийняття, а також підтвердженням кінцевих розрахунків між Сторонами.
+    </p>
+    <p>
+        Payment according hereto shall be also the confirmation that Parties have no claims to each other and have no
+        intention to submit any claims. The agreement shall not include penalty and fine clauses. /
+        Оплата згідно цього Інвойсу є підтвердженням того, що Сторони не мають взаємних претензій та не мають наміру
+        направляти рекламації. Договір не передбачає штрафних санкцій.
+    </p>
+    <p>
+        The Parties shall not be liable for non-performance or improper performance of the obligations under the
+        agreement during the term of insuperable force circumstances. / Сторони звільняються від відповідальності за
+        невиконання чи неналежне виконання зобов’язань за договором на час дії форс-мажорних обставин.
+    </p>
+    <p>
+        Any disputes arising out of the agreement between the Parties shall be settled by the competent court at the
+        location of a defendant. / Всі спори, що виникнуть між Сторонами по договору будуть розглядатись компетентним
+        судом за місцезнаходження відповідача.
+    </p>
+    <p class="final-supplier">
+        Supplier/Виконавець: _______________________ (Ilyukhin Maxim /Ілюхін М.О.)
+    </p>
+</body>
+
+</html>
