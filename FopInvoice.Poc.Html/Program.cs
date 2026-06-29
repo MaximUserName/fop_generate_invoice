@@ -63,8 +63,10 @@ class Program
             ExecutablePath = ApplicationsGoogleChromeAppContentsMacosGoogleChrome,
         });
         await using var page = await browser.NewPageAsync();
+        // await page.SetContentAsync(template);
         await page.SetContentAsync(html);
-        var pdf = await page.PdfDataAsync(new PdfOptions() { Format = PaperFormat.A4, PrintBackground = true });
+        await page.EmulateMediaTypeAsync(MediaType.Print);
+        var pdf = await page.PdfDataAsync(new PdfOptions() { Format = PaperFormat.A4, PrintBackground = true,  });
 
         var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output",
             "invoice-to-pdf-sample.pdf");
