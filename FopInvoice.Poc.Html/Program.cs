@@ -12,13 +12,15 @@ class Program
         // await TestPuppeteerFindsBrowser();
     }
 
-    const string ApplicationsGoogleChromeAppContentsMacosGoogleChrome = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+    const string ApplicationsGoogleChromeAppContentsMacosGoogleChrome =
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
 
 
     static async Task TryGeneratePdf()
     {
         Console.WriteLine("Generate PDF from HTML using headless browser");
-        var invoicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/invoice-to-pdf-sample.html");
+        // var invoicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/invoice-to-pdf-sample.html");
+        var invoicePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources/fop-invoice-template.html");
 
         Console.WriteLine(invoicePath);
         // var html2 = File.ReadAllText(invoicePath);
@@ -30,8 +32,26 @@ class Program
             amount_one = 2000,
             amount_two = 5000,
             some_text = " of some text",
+            address_ukr = "21037",
+            address_en = "21037",
+            ipn_fop_tax_number = "1212112121",
         };
-        var html = Handlebars.Compile(template)(data);
+
+        var data1 = new Dictionary<string, object>()
+        {
+            { "amount_one", 200 },
+            { "amount_two", 500 },
+            { "some_text", " of some text" },
+            { "address_ukr", "21037" },
+            { "ipn_fop_tax_number", "1212112121" },
+        };
+
+        var invoiceData = InvoiceDataHelper.PrepareVariables();
+
+        var invoiceDataVariables =
+            invoiceData.Variables.ToDictionary(key => key.Key.Replace("{", string.Empty).Replace("}", string.Empty),
+                val => val.Value);
+        var html = Handlebars.Compile(template)(invoiceDataVariables);
         Console.WriteLine(html);
         // var b = await Puppeteer.ConnectAsync(new ConnectOptions()
         // {
@@ -40,18 +60,20 @@ class Program
         await using var browser = await Puppeteer.LaunchAsync(new LaunchOptions()
         {
             Headless = true,
-            ExecutablePath =  ApplicationsGoogleChromeAppContentsMacosGoogleChrome,
+            ExecutablePath = ApplicationsGoogleChromeAppContentsMacosGoogleChrome,
         });
         await using var page = await browser.NewPageAsync();
         await page.SetContentAsync(html);
-        var pdf = await page.PdfDataAsync(new PdfOptions(){ Format = PaperFormat.A4, PrintBackground = true});
+        var pdf = await page.PdfDataAsync(new PdfOptions() { Format = PaperFormat.A4, PrintBackground = true });
 
-        var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output", "invoice-to-pdf-sample.pdf");
+        var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output",
+            "invoice-to-pdf-sample.pdf");
         var directory = Path.GetDirectoryName(outputPath)!;
         if (!Directory.Exists(directory))
         {
             Directory.CreateDirectory(directory);
         }
+
         await File.WriteAllBytesAsync(outputPath, pdf);
     }
 

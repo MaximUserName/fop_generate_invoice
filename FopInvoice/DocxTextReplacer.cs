@@ -14,6 +14,82 @@ using Text = DocumentFormat.OpenXml.Wordprocessing.Text;
 
 namespace FopInvoice;
 
+public static class InvoiceDataHelper
+{
+    public static PreparedInvoiceData PrepareVariables()
+    {
+        var invoiceNumber = 142;
+        var price = 2900;
+
+        var dateOfMoneyArrived = "12.06.2026";
+        var customerWithAddress = "Payment Escrow Inc. 2625 Augustine Drive, Suite 601 Santa Clara CA 95054 US";
+
+        // Check incomming letter from bank (payment escrow inc ... address) and uncomment if needed
+        /**/
+        customerWithAddress =
+            "PAYMENT ESCROW INC.ODESK OUTGOING WIRE CLEARING адреса 475 BRANNAN STREET, STE. 430 AN FRANCISCO, CA US 94107:US";
+
+        var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
+
+        // Invoice date should be earlier (2 days) than date of money arrived
+        var dateOfInvoice = dateOfMoneyArrivedAdDateTime.AddDays(-2);
+        var dateOfInvoiceAsString = dateOfInvoice.ToString("dd.MM.yyyy");
+
+        // Date pay no later than should be 30 days future (approx.)
+        var datePayNoLater = dateOfMoneyArrivedAdDateTime.AddDays(30);
+        var datePayNoLaterAsString = datePayNoLater.ToString("dd.MM.yyyy");
+
+        // generate ukrainian text
+        var invoicePriceTextUkr = price.ToTextInUkrainian().FormatInvoicePriceText();
+        var invoicePriceTextEnglish = NumberToWordInEnglish(price).FormatInvoicePriceText();
+
+        // var newInvoiceFileName = $"invoice_{dateOfInvoiceAsString.Replace(".", "_")}.docx";
+
+        // var newInvoicePath = Path.Combine(Path.GetDirectoryName(documentPath), newInvoiceFileName);
+
+        // File.Copy(documentPath, newInvoicePath, true);
+
+        //return;
+
+        var vars = new Dictionary<string, string>()
+        {
+            { "invoice_date", dateOfInvoiceAsString },
+            { "invoice_number", invoiceNumber.ToString() },
+            { "invoice_price", $"{price}.00" },
+            { "invoice_price_english_text", $"{invoicePriceTextEnglish} United States dollars." },
+            { "invoice_price_ukr", $"{invoicePriceTextUkr}  доларів США." },
+            { "invoice_date_pay_not_later", datePayNoLaterAsString },
+            { "customer_with_address", customerWithAddress },
+            { "ipn_fop_tax_number", "1212112121" },
+            { "address_ukr", "21037_ukr" },
+            { "address_en", "21037_en" },
+
+        }.ToDictionary(k => "{" + k.Key + "}", v => v.Value);
+        return new PreparedInvoiceData()
+        {
+            Variables = vars,
+            DateOfInvoiceAsString = dateOfInvoiceAsString,
+            Price = price,
+            InvoiceNumber = invoiceNumber,
+            DateOfMoneyArrived = dateOfMoneyArrived,
+        };
+    }
+
+    private static string NumberToWordInEnglish(int number)
+    {
+        return NumToWord.Num2Word.ToWord(number);
+    }
+}
+
+public class PreparedInvoiceData
+{
+    public Dictionary<string, string> Variables { get; set; }
+    public string DateOfInvoiceAsString { get; set; }
+    public int Price { get; set; }
+    public int InvoiceNumber { get; set; }
+    public string DateOfMoneyArrived { get; set; }
+}
+
 public static class DocxTextReplacer
 {
     public static void SearchAndReplace(string documentPath, string searchText, string replaceText)
@@ -36,10 +112,7 @@ public static class DocxTextReplacer
         }
     }
 
-    private static string NumberToWordInEnglish(int number)
-    {
-        return NumToWord.Num2Word.ToWord(number);
-    }
+
 
     public static string FormatInvoicePriceText(this string priceText)
     {
@@ -53,30 +126,11 @@ public static class DocxTextReplacer
 
     public static void SearchAndReplaceVars(string documentPath, string newDocPath)
     {
-        var invoiceNumber = 142;
-        var price = 2900;
+        var preparedData = InvoiceDataHelper.PrepareVariables();
 
-        var dateOfMoneyArrived = "12.06.2026";
-        var customerWithAddress = "Payment Escrow Inc. 2625 Augustine Drive, Suite 601 Santa Clara CA 95054 US";
-
-        // Check incomming letter from bank (payment escrow inc ... address) and uncomment if needed
-        /**/
-        customerWithAddress = "PAYMENT ESCROW INC.ODESK OUTGOING WIRE CLEARING адреса 475 BRANNAN STREET, STE. 430 AN FRANCISCO, CA US 94107:US";
-
-        var dateOfMoneyArrivedAdDateTime = DateTime.ParseExact(dateOfMoneyArrived, "dd.MM.yyyy", null);
-
-        // Invoice date should be earlier (2 days) than date of money arrived
-        var dateOfInvoice = dateOfMoneyArrivedAdDateTime.AddDays(-2);
-        var dateOfInvoiceAsString =  dateOfInvoice.ToString("dd.MM.yyyy");
-
-        // Date pay no later than should be 30 days future (approx.)
-        var datePayNoLater = dateOfMoneyArrivedAdDateTime.AddDays(30);
-        var datePayNoLaterAsString = datePayNoLater.ToString("dd.MM.yyyy");
-
-        // generate ukrainian text
-        var invoicePriceTextUkr = price.ToTextInUkrainian().FormatInvoicePriceText();
-        var invoicePriceTextEnglish = NumberToWordInEnglish(price).FormatInvoicePriceText();
-
+        string dateOfInvoiceAsString = preparedData.DateOfInvoiceAsString;
+        var price = preparedData.Price;
+        var invoiceNumber = preparedData.InvoiceNumber;
         var newInvoiceFileName = $"invoice_{dateOfInvoiceAsString.Replace(".", "_")}.docx";
 
         var newInvoicePath = Path.Combine(Path.GetDirectoryName(documentPath), newInvoiceFileName);
@@ -85,16 +139,6 @@ public static class DocxTextReplacer
 
         //return;
 
-        var vars = new Dictionary<string, string>()
-        {
-            { "invoice_date", dateOfInvoiceAsString },
-            { "invoice_number", invoiceNumber.ToString() },
-            { "invoice_price", $"{price}.00" },
-            { "invoice_price_english_text", $"{invoicePriceTextEnglish} United States dollars." },
-            { "invoice_price_ukr", $"{invoicePriceTextUkr}  доларів США." },
-            { "invoice_date_pay_not_later", datePayNoLaterAsString },
-            { "customer_with_address", customerWithAddress }
-        }.ToDictionary(k => "{" + k.Key + "}", v => v.Value);
 
         using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(newInvoicePath, true))
         {
@@ -106,12 +150,12 @@ public static class DocxTextReplacer
                 {
                     foreach (TableCell cell in row.Elements<TableCell>())
                     {
-                        ReplaceTextWithVariablesInEachParagraph(vars, cell.Elements<Paragraph>());
+                        ReplaceTextWithVariablesInEachParagraph(preparedData.Variables, cell.Elements<Paragraph>());
                     }
                 }
             }
 
-            ReplaceTextWithVariablesInEachParagraph(vars, body.Elements<Paragraph>());
+            ReplaceTextWithVariablesInEachParagraph(preparedData.Variables, body.Elements<Paragraph>());
             wordDoc.MainDocumentPart.Document.Save();
         }
 
@@ -137,7 +181,7 @@ public static class DocxTextReplacer
 
         writer.WriteLine("--- ANOTHER WAY. відповідь на запит ---");
         var uvidpovidnadaemoText =
-            $"У відповідь на \"ІТ- Експорт - документи до надходження {price} USD {dateOfMoneyArrived}\" повідомляємо, що кошти надійшли як оплата згідно Інвойсу №1/{invoiceNumber} від {dateOfInvoiceAsString}р. Документи надаємо разом з відповіддю.";
+            $"У відповідь на \"ІТ- Експорт - документи до надходження {price} USD {preparedData.DateOfMoneyArrived}\" повідомляємо, що кошти надійшли як оплата згідно Інвойсу №1/{invoiceNumber} від {dateOfInvoiceAsString}р. Документи надаємо разом з відповіддю.";
         writer.WriteLine(uvidpovidnadaemoText);
     }
 

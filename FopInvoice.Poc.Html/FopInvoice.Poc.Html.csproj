@@ -20,6 +20,14 @@
       <Content Include="Resources\invoice-to-pdf-sample.html">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Resources\fop-invoice-template.html" />
+      <Content Include="Resources\fop-invoice-template.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FopInvoice\FopInvoice.csproj" />
     </ItemGroup>
 
 </Project>
