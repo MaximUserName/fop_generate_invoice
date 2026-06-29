@@ -38,7 +38,7 @@
             break-before: always;
             break-after: always;
             box-decoration-break: clone;
-            border: 1px dashed green;
+            border: 0px dashed green;
         }
 
         /* --- Print Engine Override Configuration --- */
@@ -62,7 +62,7 @@
                 width: 210mm;
                 min-height: 297mm;
                 break-after: always;
-                border: 1px dashed red;
+                border: 0px dashed red;
                 /* Hard forces each page block onto a new physical sheet */
             }
         }
@@ -84,6 +84,20 @@
         .header {
             text-align: center;
             margin-bottom: 1rem;
+        }
+
+        .final-supplier {
+            border: 0px dashed brown;
+            position: relative;
+        }
+
+        .sign-image {
+            width: 90px;
+            height: auto;
+            position: absolute;
+            left: 150px;
+            top: -53px;
+            border: 0px dashed blue;
         }
 
         .a4-container {}
@@ -238,6 +252,7 @@
             судом за місцезнаходження відповідача.
         </p>
         <p class="final-supplier">
+            <img src="sign.png" alt="sign pdf" class="sign-image">
             Supplier/Виконавець: _______________________ (Ilyukhin Maxim /Ілюхін М.О.)
         </p>
     </main>
