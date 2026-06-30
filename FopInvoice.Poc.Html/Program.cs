@@ -61,12 +61,91 @@ class Program
         {
             Headless = true,
             ExecutablePath = ApplicationsGoogleChromeAppContentsMacosGoogleChrome,
+            Args = new[]
+            {
+                "--allow-file-access-from-files",
+                "--enable-local-file-accesses"
+            }
         });
         await using var page = await browser.NewPageAsync();
+
+        // super line, shows image file not found
+        page.Console += (sender, e) =>
+        {
+            TextWriter writer = Console.Error;
+            switch (e.Message.Type)
+            {
+                case ConsoleType.Log:
+                    break;
+                case ConsoleType.Debug:
+                    break;
+                case ConsoleType.Info:
+                    break;
+                case ConsoleType.Error:
+                    writer = Console.Error;
+                    break;
+                case ConsoleType.Warning:
+                    writer = Console.Out;
+                    break;
+                case ConsoleType.Dir:
+                    break;
+                case ConsoleType.Dirxml:
+                    break;
+                case ConsoleType.Table:
+                    break;
+                case ConsoleType.Trace:
+                    break;
+                case ConsoleType.Clear:
+                    break;
+                case ConsoleType.StartGroup:
+                    break;
+                case ConsoleType.StartGroupCollapsed:
+                    break;
+                case ConsoleType.EndGroup:
+                    break;
+                case ConsoleType.Assert:
+                    break;
+                case ConsoleType.Profile:
+                    break;
+                case ConsoleType.ProfileEnd:
+                    break;
+                case ConsoleType.Count:
+                    break;
+                case ConsoleType.TimeEnd:
+                    break;
+                case ConsoleType.Verbose:
+                    break;
+                case ConsoleType.Timestamp:
+                    break;
+                default:
+                    writer = Console.Out;
+                    break;
+            }
+
+            Console.ForegroundColor = ConsoleColor.DarkMagenta;
+
+            writer.WriteLine(e.Message.Type);
+            writer.WriteLine(e.Message.Text);
+            if (e.Message.Location is not null)
+            {
+                writer.WriteLine(FormatConsoleMessageLocation(e.Message.Location));
+            }
+            if (e.Message.Args is not null)
+            {
+                writer.WriteLine(string.Join(",", e.Message.Args));
+            }
+        };
+
+        await page.GoToAsync($"file://{AppDomain.CurrentDomain.BaseDirectory}/");
         // await page.SetContentAsync(template);
-        await page.SetContentAsync(html);
+        // await page.GoToAsync($"file://{AppContext.BaseDirectory}/");
+        await page.SetContentAsync(html, new SetContentOptions()
+        {
+            WaitUntil = new[] { WaitUntilNavigation.Networkidle0 },
+            Timeout = 1000,
+        });
         await page.EmulateMediaTypeAsync(MediaType.Print);
-        var pdf = await page.PdfDataAsync(new PdfOptions() { Format = PaperFormat.A4, PrintBackground = true,  });
+        var pdf = await page.PdfDataAsync(new PdfOptions() { Format = PaperFormat.A4, PrintBackground = true, });
 
         var outputPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../output",
             "invoice-to-pdf-sample.pdf");
@@ -77,6 +156,11 @@ class Program
         }
 
         await File.WriteAllBytesAsync(outputPath, pdf);
+    }
+
+    private static string FormatConsoleMessageLocation(ConsoleMessageLocation location)
+    {
+        return $"Line {location.LineNumber}:{location.ColumnNumber} \t {location.URL}";
     }
 
     static async Task TestPuppeteerFindsBrowser()

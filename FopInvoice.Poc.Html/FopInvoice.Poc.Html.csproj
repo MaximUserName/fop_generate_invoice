@@ -9,6 +9,9 @@
 
     <ItemGroup>
       <None Remove="Resources\invoice-to-pdf-sample.html" />
+      <None Update="Resources\images\sign.png">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
